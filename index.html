@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jonas Johansson</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	window.onload = function(){
+		const socket = io();
+
+		const p1 = document.querySelector('#player1');
+		const p2 = document.querySelector('#player2');
+
+		let playerId = "player1";
+
+		for (const player of [p1,p2]){
+			const radio = player.querySelector('input[type=radio]');
+			const input = player.querySelector('input[type=text]');
+			const button = player.querySelector('button');
+			radio.addEventListener('click', (e) => {
+				playerId = e.currentTarget.value;
+			});
+			button.addEventListener('click', (e) => {
+				socket.emit('playerCommand', { player: playerId, input: input.value });
+			});
+			window.ondevicemotion = function(e) {
+				// response.innerHTML = event;
+				socket.emit('playerRotation', { player: playerId, val: e.accelerationIncludingGravity.x });
+			};
+		}
+
+		// socket.on('playerResponse', function(data) {
+		// 	response.innerHTML = data.data;
+		// 	console.log(data);
+		// });
+	}
+	</script>
+</head>
+<body>
+	<div id="player1">
+		<input type="radio" name="player" value="player1">
+		<input type="text" value="light punch"></input>
+		<button></button>
+	</div>
+	<div id="player2">
+		<input type="radio" name="player" value="player2">
+		<input type="text" value="light punch"></input>
+		<button></button>
+	</div>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("language", "1");  // Load the translator JS library.
+
+      // These will most likely be set in a UI.
+      var fromLang = "en";
+      var toLang = "es";
+
+      function handleSpeechInput(event) {
+        var text = event.target.value;
+        var callback = function(result) {
+          if (result.translation)
+            speak(result.translation, toLang);
+        };
+        google.language.translate(text, fromLang, toLang, callback);
+      }
+
+      function speak(output, lang) {
+        // (Use <audio> or a TTS API to speak output in lang) 
+      }
+    </script>
+
+    <form>
+    <input speech onspeechchange="handleSpeechInput">
+    </form>
+   
+</body>
+</html>
