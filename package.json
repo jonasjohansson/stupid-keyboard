@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "iohook": "^0.2.0",
     "keypress": "^0.2.1",
     "node-wit": "^5.0.0",
